@@ -24,7 +24,7 @@ import (
 func main() {
 	board := makeBoard()
 	// board = initArray(board)
-	fmt.Println(board)
+	printBoard(board)
 
 }
 
@@ -46,7 +46,7 @@ func makeBoard() [][]string {
 	for i < 3 {
 		for j < 9 {
 			// board[i][j] = fmt.Sprint(time.Now().UnixNano()) creating board with some value
-			n := randomNo(j*10+1, (j+1)*10+1)
+			n := randomNo(j*10+1, (j+1)*10)
 			if _, ok := numMap[n]; !ok {
 				numMap[n]++
 				board[i][j] = fmt.Sprint(n)
@@ -57,6 +57,8 @@ func makeBoard() [][]string {
 		i++
 	}
 
+	board = sortBoard(board)
+	board = hideNumber(board)
 	return board
 }
 
@@ -73,9 +75,11 @@ func sortBoard(board [][]string) [][]string {
 			board[0][j] = board[2][j]
 			board[2][j] = temp
 		} else if getNo(board[0][j]) > getNo(board[1][j]) && getNo(board[2][j]) > getNo(board[1][j]) {
-			temp := board[0][j]
-			board[0][j] = board[1][j]
-			board[1][j] = temp
+			if getNo(board[0][j]) > getNo(board[2][j]) {
+				board[0][j], board[1][j], board[2][j] = board[1][j], board[2][j], board[0][j]
+			} else {
+				board[0][j], board[1][j] = board[1][j], board[0][j]
+			}
 		} else if getNo(board[1][j]) > getNo(board[2][j]) && getNo(board[1][j]) > getNo(board[0][j]) {
 			if getNo(board[0][j]) > getNo(board[2][j]) {
 				board[0][j], board[1][j], board[2][j] = board[2][j], board[0][j], board[1][j]
@@ -85,4 +89,26 @@ func sortBoard(board [][]string) [][]string {
 		}
 	}
 	return board
+}
+
+func hideNumber(board [][]string) [][]string {
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 9; j++ {
+			if (i+j)%2 == 0 {
+				board[i][j] = "*"
+			}
+		}
+	}
+	return board
+}
+
+func printBoard(board [][]string) {
+	s := ""
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 9; j++ {
+			s = s + board[i][j] + "\t"
+		}
+		s = s + "\n"
+	}
+	fmt.Println(s)
 }
