@@ -57,8 +57,8 @@ func makeBoard() [][]string {
 		i++
 	}
 
-	board = sortBoard(board)
-	board = hideNumber(board)
+	sortBoard(board)
+	// hideNumber(board)
 	return board
 }
 
@@ -92,13 +92,19 @@ func sortBoard(board [][]string) [][]string {
 }
 
 func hideNumber(board [][]string) [][]string {
+	// init a map
+	// pick 5 random places from 0 - 8
+	// push that into m[0], m[1], m[2]
+	// if num is already in m[0] and m[1] then create new no
+
+	m := make(map[int][]int)
 	for i := 0; i < 3; i++ {
-		for j := 0; j < 9; j++ {
-			if (i+j)%2 == 0 {
-				board[i][j] = "*"
-			}
+		for len(m[i]) < 6 {
+			num = randomNo(0, 10)
+
 		}
 	}
+
 	return board
 }
 
