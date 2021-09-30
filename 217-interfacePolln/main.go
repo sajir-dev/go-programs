@@ -36,9 +36,12 @@ func main() {
 
 	sm := mockServer{}
 
-	sm.Start()
-	sm.Add()
+	si := &sm
+	sii := &s
 
-	s.Start()
-	s.Add()
+	sii.Start()
+	sii.Add()
+
+	si.Start()
+	si.Add()
 }
